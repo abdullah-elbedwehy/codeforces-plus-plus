@@ -4,8 +4,7 @@ Hey, competitive programmer! **Codeforces++** is a Tampermonkey userscript that 
 
 ## 🎬 Demo  
 
-<iframe width="1191" height="670" src="https://www.youtube.com/embed/YgoxSbvFbXI" title="Codeforces++ 0.3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
+<img src="Media/file.gif" alt="file" style="zoom:200%;" />
 
 
 
