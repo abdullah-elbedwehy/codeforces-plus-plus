@@ -2,6 +2,13 @@
 
 Hey, competitive programmer! **Codeforces++** is a Tampermonkey userscript that makes your Codeforces experience faster and smarter. Navigate problems, copy statements, watch tutorials, and get AI help—all from one handy sidebar. Ready to level up?
 
+## 🎬 Demo  
+
+<iframe width="1191" height="670" src="https://www.youtube.com/embed/YgoxSbvFbXI" title="Codeforces++ 0.3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+
+
 ## ✨ Features
 
 -   **Problem Navigation**: Switch between problems with **Previous** and **Next** buttons.
