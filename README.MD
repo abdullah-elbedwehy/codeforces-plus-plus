@@ -2,11 +2,9 @@
 
 Hey, competitive programmer! **Codeforces++** is a Tampermonkey userscript that makes your Codeforces experience faster and smarter. Navigate problems, copy statements, watch tutorials, and get AI help—all from one handy sidebar. Ready to level up?
 
-## 🎬 Demo  
+## 🎬 Demo
 
 <img src="Media/file.gif" alt="file" style="zoom:200%;" />
-
-
 
 ## ✨ Features
 
@@ -24,11 +22,16 @@ Hey, competitive programmer! **Codeforces++** is a Tampermonkey userscript that 
 
 ## 🛠️ Installation
 
-1. Install the [Tampermonkey](https://www.tampermonkey.net/) extension for your browser.
-2. Click the Tampermonkey icon and pick **"Create a new script"**.
-3. Clear out any text in the editor.
-4. Copy all of `tamper.js` and paste it in.
-5. Hit **Ctrl+S** (or File → Save) to save it.
+1.  Install the Tampermonkey extension for your browser:
+
+    [![Chrome](https://ziadoua.github.io/m3-Markdown-Badges/badges/Chrome/chrome1.svg)](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en)
+    [![Firefox](https://ziadoua.github.io/m3-Markdown-Badges/badges/Firefox/firefox1.svg)](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/)
+
+
+2.  Click the Tampermonkey icon in your browser and select **"Create a new script"**.
+3.  Clear any existing text in the editor.
+4.  Go to the `tamper.js` file in this repository, **copy its entire content**, and paste it into the Tampermonkey editor.
+5.  Hit **Ctrl+S** (or File → Save) to save the script.
 
 **Tip**: Double-check Tampermonkey is turned on!
 
