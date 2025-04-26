@@ -86,15 +86,29 @@
 
     // Create the YouTube search button
     const youtubeButton = document.createElement("button");
-    youtubeButton.textContent = "Search YouTube Tutorials";
+    youtubeButton.textContent = "Solutions Tutorials";
 
     // Create the Explain Problem button
     const explainButton = document.createElement("button");
-    explainButton.textContent = "Ask Perplexity to Explain Problem";
+    explainButton.textContent = "Perplexity Explain";
 
     // Create the ChatGPT Explain Problem button
     const chatgptButton = document.createElement("button");
-    chatgptButton.textContent = "Ask ChatGPT to Explain Problem";
+    chatgptButton.textContent = "ChatGPT Explain";
+
+    // Create the new buttons for Tool Buttons sidebar
+    const whiteboardButton = document.createElement("button");
+    whiteboardButton.textContent = "Open Whiteboard";
+
+    const ideoneButton = document.createElement("button");
+    ideoneButton.textContent = "Try Code on Ideone";
+
+    // Create the new buttons for Coding Tools sidebar (new buttons, separate from existing ones)
+    const codingToolsWhiteboardButton = document.createElement("button");
+    codingToolsWhiteboardButton.textContent = "Whiteboard";
+
+    const codingToolsIdeoneButton = document.createElement("button");
+    codingToolsIdeoneButton.textContent = "Code in Ideone";
 
     // Create navigation buttons
     const navContainer = document.createElement("div");
@@ -398,7 +412,7 @@
                 copyButton.style.color = "white";
                 copyButton.style.borderColor = styles.successColor;
                 setTimeout(function () {
-                    copyButton.textContent = "Copy Problem Statement";
+                    copyButton.textContent = "Copy Problem";
                     copyButton.style.backgroundColor = "transparent";
                     copyButton.style.color = styles.linkColor;
                     copyButton.style.borderColor = styles.borderColor;
@@ -412,7 +426,7 @@
                 copyButton.style.color = "white";
                 copyButton.style.borderColor = styles.errorColor;
                 setTimeout(function () {
-                    copyButton.textContent = "Copy Problem Statement";
+                    copyButton.textContent = "Copy Problem";
                     copyButton.style.backgroundColor = "transparent";
                     copyButton.style.color = styles.linkColor;
                     copyButton.style.borderColor = styles.borderColor;
@@ -458,7 +472,7 @@ Problem:
         // Update button to show success
         explainButton.textContent = "Opened in Perplexity!";
         setTimeout(function () {
-            explainButton.textContent = "Ask Perplexity to Explain Problem";
+            explainButton.textContent = "Perplexity Explain";
         }, 2000);
     });
 
@@ -500,7 +514,7 @@ Problem:
         // Update button to show success
         chatgptButton.textContent = "Opened in ChatGPT!";
         setTimeout(function () {
-            chatgptButton.textContent = "Ask ChatGPT to Explain Problem";
+            chatgptButton.textContent = "ChatGPT Explain";
         }, 2000);
     });
 
@@ -528,7 +542,28 @@ Problem:
         // Update button to show success
         youtubeButton.textContent = "Opened YouTube Search!";
         setTimeout(function () {
-            youtubeButton.textContent = "Search YouTube Tutorials";
+            youtubeButton.textContent = "Solutions Tutorials";
+        }, 2000);
+    });
+
+    // Add event listeners for new buttons
+    codingToolsWhiteboardButton.addEventListener("click", function () {
+        window.open("https://whiteboard.new", "_blank");
+
+        // Update button to show success
+        codingToolsWhiteboardButton.textContent = "Opened Whiteboard!";
+        setTimeout(function () {
+            codingToolsWhiteboardButton.textContent = "Whiteboard";
+        }, 2000);
+    });
+
+    codingToolsIdeoneButton.addEventListener("click", function () {
+        window.open("https://ideone.com", "_blank");
+
+        // Update button to show success
+        codingToolsIdeoneButton.textContent = "Opened Ideone!";
+        setTimeout(function () {
+            codingToolsIdeoneButton.textContent = "Code in Ideone";
         }, 2000);
     });
 
@@ -704,6 +739,115 @@ Problem:
                 }
             }
         }
+
+        // Create new tools sidebar (completely separate from existing divs)
+        if (!document.body.contains(codingToolsWhiteboardButton)) {
+            const codingToolsSidebarContainer = document.createElement("div");
+            codingToolsSidebarContainer.id = "cf-coding-tools-buttons";
+            codingToolsSidebarContainer.className =
+                "roundbox sidebox borderTopRound";
+
+            const codingToolsCaption = document.createElement("div");
+            codingToolsCaption.className = "caption titled";
+            codingToolsCaption.innerHTML = "→ Coding Tools";
+
+            // Add dropdown icon
+            const codingToolsDropdownIcon = document.createElement("i");
+            codingToolsDropdownIcon.className =
+                "sidebar-caption-icon las la-angle-down";
+            codingToolsCaption.appendChild(codingToolsDropdownIcon);
+
+            codingToolsSidebarContainer.appendChild(codingToolsCaption);
+
+            const codingToolsButtonsList = document.createElement("ul");
+            codingToolsButtonsList.style.display = "block"; // Start expanded
+
+            // Add toggle functionality
+            codingToolsDropdownIcon.addEventListener("click", function () {
+                this.classList.toggle("la-angle-down");
+                this.classList.toggle("la-angle-right");
+                if (codingToolsButtonsList.style.display === "none") {
+                    codingToolsButtonsList.style.display = "block";
+                } else {
+                    codingToolsButtonsList.style.display = "none";
+                }
+            });
+
+            // Create whiteboard button with the same style
+            const whiteboardButtonItem = document.createElement("li");
+            codingToolsWhiteboardButton.style.display = "inline-block";
+            codingToolsWhiteboardButton.style.margin = "0 10px";
+            codingToolsWhiteboardButton.style.padding = "8px 15px";
+            codingToolsWhiteboardButton.style.backgroundColor = "transparent";
+            codingToolsWhiteboardButton.style.color = styles.linkColor;
+            codingToolsWhiteboardButton.style.border = `1px solid ${styles.borderColor}`;
+            codingToolsWhiteboardButton.style.borderRadius = "4px";
+            codingToolsWhiteboardButton.style.cursor = "pointer";
+            codingToolsWhiteboardButton.style.fontSize = "14px";
+            codingToolsWhiteboardButton.style.zIndex = "9999";
+            codingToolsWhiteboardButton.style.fontWeight = "bold";
+            codingToolsWhiteboardButton.style.fontFamily = styles.fontFamily;
+            codingToolsWhiteboardButton.style.textDecoration = "none";
+            codingToolsWhiteboardButton.style.width = "85%";
+            whiteboardButtonItem.appendChild(codingToolsWhiteboardButton);
+
+            // Create ideone button with the same style
+            const ideoneButtonItem = document.createElement("li");
+            codingToolsIdeoneButton.style.display = "inline-block";
+            codingToolsIdeoneButton.style.margin = "0 10px";
+            codingToolsIdeoneButton.style.padding = "8px 15px";
+            codingToolsIdeoneButton.style.backgroundColor = "transparent";
+            codingToolsIdeoneButton.style.color = styles.linkColor;
+            codingToolsIdeoneButton.style.border = `1px solid ${styles.borderColor}`;
+            codingToolsIdeoneButton.style.borderRadius = "4px";
+            codingToolsIdeoneButton.style.cursor = "pointer";
+            codingToolsIdeoneButton.style.fontSize = "14px";
+            codingToolsIdeoneButton.style.zIndex = "9999";
+            codingToolsIdeoneButton.style.fontWeight = "bold";
+            codingToolsIdeoneButton.style.fontFamily = styles.fontFamily;
+            codingToolsIdeoneButton.style.textDecoration = "none";
+            codingToolsIdeoneButton.style.width = "85%";
+            ideoneButtonItem.appendChild(codingToolsIdeoneButton);
+
+            // Add the buttons to the list
+            codingToolsButtonsList.appendChild(whiteboardButtonItem);
+            codingToolsButtonsList.appendChild(ideoneButtonItem);
+
+            codingToolsSidebarContainer.appendChild(codingToolsButtonsList);
+
+            // Add to sidebar after ICPC SCU sidebar
+            const icpcSidebar = document.querySelector(
+                "a[href='/group/n3sTiYtHxI']"
+            );
+            if (icpcSidebar) {
+                const icpcSidebarParent =
+                    icpcSidebar.closest(".roundbox.sidebox");
+                if (icpcSidebarParent) {
+                    icpcSidebarParent.parentNode.insertBefore(
+                        codingToolsSidebarContainer,
+                        icpcSidebarParent.nextSibling
+                    );
+                } else {
+                    // Fallback - add to right column
+                    const rightColumn = document.querySelector(".right-column");
+                    if (rightColumn) {
+                        const sidebarElements =
+                            rightColumn.querySelectorAll(".roundbox.sidebox");
+                        if (sidebarElements.length > 0) {
+                            rightColumn.insertBefore(
+                                codingToolsSidebarContainer,
+                                sidebarElements[0].nextSibling
+                            );
+                        } else {
+                            rightColumn.insertBefore(
+                                codingToolsSidebarContainer,
+                                rightColumn.firstChild
+                            );
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // Add buttons, ensuring dark mode button call is removed
@@ -731,7 +875,13 @@ Problem:
             !document.body.contains(youtubeButton) ||
             !document.body.contains(explainButton) ||
             !document.body.contains(chatgptButton) ||
-            !document.querySelector("#cf-action-buttons")
+            !document.querySelector("#cf-action-buttons") ||
+            !document.body.contains(whiteboardButton) ||
+            !document.body.contains(ideoneButton) ||
+            !document.querySelector("#cf-tools-buttons") ||
+            !document.body.contains(codingToolsWhiteboardButton) ||
+            !document.body.contains(codingToolsIdeoneButton) ||
+            !document.querySelector("#cf-coding-tools-buttons")
         ) {
             addButtonsToPage();
         }
