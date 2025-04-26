@@ -6,10 +6,13 @@ Hey, competitive programmer! **Codeforces++** is a Tampermonkey userscript that 
 
 -   **Problem Navigation**: Switch between problems with **Previous** and **Next** buttons.
 -   **Copy Problem Statement**: Grab the whole problem (with examples!) in one click.
--   **YouTube Tutorials**: Find video help for the problem instantly.
+-   **Solutions & Tutorials**: Find video help for the problem instantly.
 -   **AI Explanations**: Understand problems better with:
     -   Perplexity AI
     -   ChatGPT
+-   **Coding Tools**: Quick access to essential development tools:
+    -   Whiteboard for brainstorming
+    -   Online IDE (Ideone) for quick code testing
 
 (No API key needed!)
 
@@ -29,9 +32,12 @@ Visit a Codeforces problem page, and the script kicks in:
 
 -   **Navigation Buttons**: See **Previous** and **Next** at the top—jump between problems easily.
 -   **Codeforces++ Sidebar**: A cool sidebar pops up with:
-    -   **Copy Problem Statement**: Copies everything to your clipboard.
-    -   **Search YouTube Tutorials**: Opens YouTube with problem-related videos.
-    -   **Ask Perplexity/ChatGPT**: Get clear explanations to learn, not cheat!
+    -   **Copy Problem**: Copies everything to your clipboard.
+    -   **Solutions Tutorials**: Opens YouTube with problem-related videos.
+    -   **Perplexity Explain/ChatGPT Explain**: Get clear explanations to learn, not cheat!
+-   **Coding Tools Sidebar**: Quick access to external tools:
+    -   **Whiteboard**: Opens a new whiteboard for diagramming algorithms.
+    -   **Code in Ideone**: Opens Ideone's online IDE for quick code testing.
 
 **Note**: AI and YouTube need internet, but the script keeps your data private.
 
@@ -39,10 +45,11 @@ Visit a Codeforces problem page, and the script kicks in:
 
 Here's the magic behind Codeforces++:
 
--   Adds a sidebar that fits right into Codeforces' look.
+-   Adds sidebars that fit right into Codeforces' look.
 -   Pulls problem details using webpage tricks (DOM manipulation).
 -   Links problems for easy navigation.
 -   Uses smart AI questions to help you learn.
+-   Integrates with external coding tools to speed up your workflow.
 
 It's all vanilla JavaScript—fast and simple!
 
@@ -96,6 +103,7 @@ Future ideas:
 -   More platforms (like AtCoder).
 -   Offline problem saving.
 -   Hints from the community.
+-   Additional coding tools integration.
 
 **Got ideas?** Share them with us!
 
