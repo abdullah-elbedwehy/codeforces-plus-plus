@@ -1,6 +1,6 @@
 # Codeforces++ 🚀
 
-Hey, competitive programmer! **Codeforces++** is a Tampermonkey userscript that makes your Codeforces experience faster and smarter. Navigate problems, copy statements, watch tutorials, and get AI help—all from one handy sidebar. Ready to level up?
+Hey, competitive programmer! **Codeforces++** is a Tampermonkey userscript that transforms your Codeforces experience into a modern coding powerhouse. Navigate problems, copy statements, watch tutorials, get AI help, and code directly on the page with a VS Code-like editor—all from one incredible interface. Ready to level up your competitive programming game?
 
 ## 🎬 Demo
 
@@ -8,15 +8,38 @@ Hey, competitive programmer! **Codeforces++** is a Tampermonkey userscript that 
 
 ## ✨ Features
 
+### 🖥️ **Monaco VS Code Editor**
+
+-   **Full VS Code Experience**: Code directly on Codeforces with Monaco Editor—the same engine that powers VS Code!
+-   **Smart Syntax Highlighting**: Beautiful syntax highlighting with semantic analysis for C++, Python, Java, JavaScript, and C.
+-   **Premium Fonts**: Cascadia Code, JetBrains Mono, and other developer favorites for the perfect coding experience.
+-   **One-Click Submission**: Submit solutions directly from the editor with preview confirmation—no more copy-pasting!
+-   **Instant Paste**: Paste code from clipboard with a single button click.
+-   **Language Switching**: Quick language selector with auto-templates for each programming language.
+-   **Dark Theme**: Modern dark interface with a beautiful blue gradient header that matches your coding vibe.
+
+### 🧭 **Navigation & Productivity**
+
 -   **Problem Navigation**: Switch between problems with **Previous** and **Next** buttons.
 -   **Copy Problem Statement**: Grab the whole problem (with examples!) in one click.
+-   **Enhanced Submission Form**: Preview your code before submitting with our smart submission system.
+
+### 🎓 **Learning & Tutorials**
+
 -   **Solutions & Tutorials**: Find video help for the problem instantly.
 -   **AI Explanations**: Understand problems better with:
-    -   Perplexity AI
-    -   ChatGPT
+    -   Perplexity AI coaching
+    -   ChatGPT detailed breakdowns
 -   **Coding Tools**: Quick access to essential development tools:
-    -   Whiteboard for brainstorming
-    -   Online IDE (Ideone) for quick code testing
+    -   Excalidraw whiteboard for algorithm visualization
+    -   Online compilers for quick testing
+
+### 🎨 **Modern Design**
+
+-   **Beautiful Dark Theme**: Sleek modern interface with carefully chosen colors and gradients.
+-   **Responsive Design**: Works perfectly with Codeforces sidebar and adapts to any screen size.
+-   **Smooth Animations**: Polished hover effects and transitions for a premium feel.
+-   **Smart Notifications**: Elegant sliding notifications instead of annoying popups.
 
 (No API key needed!)
 
@@ -27,7 +50,6 @@ Hey, competitive programmer! **Codeforces++** is a Tampermonkey userscript that 
     [![Chrome](https://ziadoua.github.io/m3-Markdown-Badges/badges/Chrome/chrome1.svg)](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en)
     [![Firefox](https://ziadoua.github.io/m3-Markdown-Badges/badges/Firefox/firefox1.svg)](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/)
 
-
 2.  Click the Tampermonkey icon in your browser and select **"Create a new script"**.
 3.  Clear any existing text in the editor.
 4.  Go to the `tamper.js` file in this repository, **copy its entire content**, and paste it into the Tampermonkey editor.
@@ -37,38 +59,51 @@ Hey, competitive programmer! **Codeforces++** is a Tampermonkey userscript that 
 
 ## 📖 Usage
 
-Visit a Codeforces problem page, and the script kicks in:
+Visit a Codeforces problem page, and the magic happens:
 
--   **Navigation Buttons**: See **Previous** and **Next** at the top—jump between problems easily.
--   **Codeforces++ Sidebar**: A cool sidebar pops up with:
-    -   **Copy Problem**: Copies everything to your clipboard.
+### 💻 **VS Code Editor**
+
+-   **Code Like a Pro**: A beautiful Monaco editor appears right under the problem statement—code without leaving the page!
+-   **Smart Language Selection**: Pick your language (C++, Python, Java, etc.) and get starter templates automatically.
+-   **📋 Paste Button**: Click to paste code from your clipboard instantly.
+-   **🚀 Submit Button**: Submit your solution with a preview confirmation—never worry about wrong submissions again!
+
+### 🧭 **Enhanced Navigation**
+
+-   **Navigation Buttons**: See **Previous** and **Next** at the top—jump between problems like a speedster.
+-   **Codeforces++ Sidebar**: A sleek sidebar with power tools:
+    -   **Copy Problem**: Copies everything to your clipboard for notes.
     -   **Solutions Tutorials**: Opens YouTube with problem-related videos.
-    -   **Perplexity Explain/ChatGPT Explain**: Get clear explanations to learn, not cheat!
--   **Coding Tools Sidebar**: Quick access to external tools:
-    -   **Whiteboard**: Opens a new whiteboard for diagramming algorithms.
-    -   **Code in Ideone**: Opens Ideone's online IDE for quick code testing.
+    -   **Perplexity Explain/ChatGPT Explain**: Get expert explanations to boost your understanding!
 
-**Note**: AI and YouTube need internet, but the script keeps your data private.
+### 🎨 **Visual Experience**
+
+-   **Dark Theme Magic**: Everything looks modern and easy on the eyes.
+-   **Responsive Design**: Perfect fit whether you're on a laptop, desktop, or ultrawide monitor.
+-   **Smooth Interactions**: Hover effects, animations, and polished UI make coding enjoyable.
+
+**Note**: AI and YouTube need internet, but the script keeps your data private and never sends your code anywhere.
 
 ## 🔍 How It Works
 
-Here's the magic behind Codeforces++:
+Here's the tech magic behind Codeforces++:
 
--   Adds sidebars that fit right into Codeforces' look.
--   Pulls problem details using webpage tricks (DOM manipulation).
--   Links problems for easy navigation.
--   Uses smart AI questions to help you learn.
--   Integrates with external coding tools to speed up your workflow.
+-   **Monaco Editor Integration**: Uses the same editor engine as VS Code for professional coding experience.
+-   **Smart DOM Manipulation**: Seamlessly integrates with Codeforces' existing interface.
+-   **Enhanced Submission System**: Intercepts and improves the standard submission flow with previews.
+-   **Responsive Width Calculation**: Automatically adjusts to fit alongside Codeforces' sidebar.
+-   **Modern CSS Design**: Custom color palette with gradients, shadows, and smooth transitions.
+-   **Memory Management**: Proper cleanup prevents performance issues during long coding sessions.
 
-It's all vanilla JavaScript—fast and simple!
+It's all vanilla JavaScript with Monaco—fast, professional, and reliable!
 
 ## 🤖 AI Learning Help
 
-The script asks AI tools to explain problems in a way that boosts your skills—like a tutor! It's about understanding, not just solving.
+The script transforms AI tools into your personal competitive programming coach! Instead of just giving answers, it helps you understand problems deeply and develop problem-solving skills.
 
 ## 👨‍🏫 AI Coach Prompts
 
-Here's the exact prompt that turns ChatGPT and Perplexity into your personal competitive programming coach:
+Here's the expert prompt that turns ChatGPT and Perplexity into your coding sensei:
 
 ```
 You are an expert competitive programming coach with decades of experience. Your goal is to explain this problem clearly and help the user understand how to approach it, without providing any actual code solution.
@@ -88,16 +123,23 @@ Please analyze this problem and provide:
 Remember, do NOT provide any actual code in your response, just guide the user toward understanding the problem and developing their own solution approach.
 ```
 
-This prompt is carefully designed to help you learn rather than just get answers. The AI will:
+This prompt is carefully crafted to make you a better programmer, not just someone who copies solutions. The AI becomes your coding mentor!
 
--   Break down complex problems into understandable steps
--   Point out the important parts to focus on
--   Suggest different approaches without giving away the solution
--   Help you become a better problem solver!
+## 🎨 Color Palette & Theming
+
+Codeforces++ uses a carefully designed modern dark theme:
+
+-   **Background**: Deep dark (#0E0E0E) for comfortable long coding sessions
+-   **Cards & Containers**: Rich dark (#121212) with subtle borders
+-   **Primary Actions**: Beautiful blue gradient (#00A4FF → #0090FF)
+-   **Text**: High contrast white and grays for perfect readability
+-   **Shadows**: Layered shadows for depth and modern feel
+
+The design is inspired by modern IDEs and follows accessibility best practices!
 
 ## 🌐 Where It Works
 
-These Codeforces pages are supported:
+These Codeforces pages are fully supported:
 
 -   `https://codeforces.com/contest/*/problem/*`
 -   `https://codeforces.com/problemset/problem/*/*`
@@ -107,21 +149,24 @@ These Codeforces pages are supported:
 
 ## 🚀 What's Next?
 
-Future ideas:
+Exciting future plans:
 
--   More platforms (like AtCoder).
--   Offline problem saving.
--   Hints from the community.
--   Additional coding tools integration.
+-   **More IDE Features**: Auto-complete, error highlighting, and code formatting
+-   **Platform Expansion**: AtCoder, LeetCode, and other competitive programming sites
+-   **Offline Coding**: Save and sync your solutions across devices
+-   **Community Features**: Share and discuss approaches with other coders
+-   **Performance Analytics**: Track your coding patterns and improvement areas
 
-**Got ideas?** Share them with us!
+**Got cool ideas?** We'd love to hear them!
 
 ## 🛡️ Troubleshooting
 
--   **Not working?** Check Tampermonkey is on.
--   **Buttons missing?** Make sure you're on a supported page.
--   **AI stuck?** Test your internet connection.
+-   **Editor not showing?** Refresh the page and make sure Tampermonkey is enabled.
+-   **Submit button not working?** Check browser console for errors and try refreshing.
+-   **Monaco editor looks weird?** Your browser might be blocking the CDN—try disabling ad blockers temporarily.
+-   **AI explanations stuck?** Check your internet connection and try again.
+-   **Buttons missing?** Make sure you're on a supported Codeforces problem page.
 
 ## 📄 License
 
-MIT
+MIT - Feel free to fork, modify, and make it even more awesome!
