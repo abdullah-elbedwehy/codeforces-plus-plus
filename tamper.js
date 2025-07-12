@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Codeforces++
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Adds a button to copy the entire Codeforces problem statement, test cases, quick links, helpers, and an embedded VS Code editor with direct submission - All features are configurable!
 // @author       Eng. Abdullah
 // @match        https://codeforces.com/contest/*/problem/*
@@ -36,6 +36,8 @@
         navigationButtons: true,
         sidebar: true,
         editorTheme: "facebook-dark",
+        darkMode: false,
+        problemsRecorder: true,
     };
 
     /* ---------- Theme System ---------- */
@@ -43,16 +45,324 @@
         "vs-dark": {
             name: "🌙 VS Dark",
             monaco: "vs-dark",
-            background: "#1e1e1e",
-            headerBg: "linear-gradient(135deg, #007acc, #005a9e)",
+            background: "#1A1A1A",
+            headerBg: "linear-gradient(135deg, #4A9EFF, #3D8BFF)",
         },
         "facebook-dark": {
             name: "📘 Facebook Dark",
             monaco: "vs-dark",
-            background: "#18191a",
-            headerBg: "linear-gradient(135deg, #3b82f6, #1e40af)",
+            background: "#1A1A1A",
+            headerBg: "linear-gradient(135deg, #4A9EFF, #3D8BFF)",
         },
     };
+
+    /* ---------- Dark Mode System ---------- */
+    function createDarkModeCSS() {
+        return `
+            /* Dark Mode Transitions */
+            * {
+                transition: background-color 250ms ease, border-color 250ms ease, color 250ms ease, box-shadow 250ms ease !important;
+            }
+
+            /* Dark Mode Styles */
+            .cf-dark-mode .page,
+            .cf-dark-mode body,
+            .cf-dark-mode #body {
+                background: #1A1A1A !important;
+                color: #D0D0D0 !important;
+            }
+
+            /* Cards */
+            .cf-dark-mode .roundbox,
+            .cf-dark-mode .sidebar,
+            .cf-dark-mode .sidebox,
+            .cf-dark-mode .bordertable,
+            .cf-dark-mode .datatable,
+            .cf-dark-mode .problem-statement,
+            .cf-dark-mode .sample-tests,
+            .cf-dark-mode .input,
+            .cf-dark-mode .output {
+                background: #242424 !important;
+                border: 1px solid #3A3A3A !important;
+                border-radius: 12px !important;
+                box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 4px 12px rgba(0,0,0,0.40) !important;
+            }
+
+            .cf-dark-mode .roundbox:hover,
+            .cf-dark-mode .sidebar:hover,
+            .cf-dark-mode .sidebox:hover {
+                background: #2A2A2A !important;
+                border: 1px solid #4A4A4A !important;
+                box-shadow: 0 6px 16px rgba(0,0,0,0.50) !important;
+            }
+
+            /* Typography */
+            .cf-dark-mode h1,
+            .cf-dark-mode h2,
+            .cf-dark-mode h3,
+            .cf-dark-mode .title {
+                color: #E8E8E8 !important;
+            }
+
+            .cf-dark-mode p,
+            .cf-dark-mode li,
+            .cf-dark-mode td,
+            .cf-dark-mode .problem-statement div {
+                color: #D0D0D0 !important;
+            }
+
+            .cf-dark-mode .caption,
+            .cf-dark-mode .time-limit,
+            .cf-dark-mode .memory-limit {
+                color: #A0A0A0 !important;
+            }
+
+            /* Navigation */
+            .cf-dark-mode #header,
+            .cf-dark-mode .second-level-menu,
+            .cf-dark-mode .lang-chooser {
+                background: rgba(26,26,26,0.85) !important;
+                backdrop-filter: blur(12px) !important;
+                color: #E8E8E8 !important;
+            }
+
+            .cf-dark-mode #header a,
+            .cf-dark-mode .second-level-menu a {
+                color: #E8E8E8 !important;
+            }
+
+            .cf-dark-mode #header a:hover,
+            .cf-dark-mode .second-level-menu a:hover {
+                color: #C0C0C0 !important;
+            }
+
+            .cf-dark-mode #header .menu-list-container a.active,
+            .cf-dark-mode .second-level-menu a.active {
+                color: #4A9EFF !important;
+            }
+
+            /* Buttons */
+            .cf-dark-mode .btn,
+            .cf-dark-mode button,
+            .cf-dark-mode input[type="submit"],
+            .cf-dark-mode input[type="button"] {
+                background: transparent !important;
+                color: #E8E8E8 !important;
+                border: 1px solid #4A4A4A !important;
+                border-radius: 8px !important;
+            }
+
+            .cf-dark-mode .btn:hover,
+            .cf-dark-mode button:hover,
+            .cf-dark-mode input[type="submit"]:hover,
+            .cf-dark-mode input[type="button"]:hover {
+                background: #2A2A2A !important;
+            }
+
+            .cf-dark-mode .btn:active,
+            .cf-dark-mode button:active {
+                background: #303030 !important;
+            }
+
+            /* Primary Buttons */
+            .cf-dark-mode .btn.btn-primary,
+            .cf-dark-mode button.btn-primary {
+                background: linear-gradient(90deg, #4A9EFF 0%, #3D8BFF 100%) !important;
+                color: #FFFFFF !important;
+                border: none !important;
+                box-shadow: 0 2px 6px rgba(74,158,255,0.30) !important;
+            }
+
+            .cf-dark-mode .btn.btn-primary:hover,
+            .cf-dark-mode button.btn-primary:hover {
+                background: linear-gradient(90deg, #5AA8FF 0%, #4D9BFF 100%) !important;
+            }
+
+            .cf-dark-mode .btn.btn-primary:active,
+            .cf-dark-mode button.btn-primary:active {
+                background: #3A7AE0 !important;
+            }
+
+            /* Forms */
+            .cf-dark-mode input,
+            .cf-dark-mode textarea,
+            .cf-dark-mode select {
+                background: #2A2A2A !important;
+                color: #E8E8E8 !important;
+                border: 1px solid #4A4A4A !important;
+                border-radius: 4px !important;
+            }
+
+            .cf-dark-mode input:focus,
+            .cf-dark-mode textarea:focus,
+            .cf-dark-mode select:focus {
+                outline: 2px solid #4A9EFF !important;
+                border-color: #4A9EFF !important;
+            }
+
+            /* Tables */
+            .cf-dark-mode .bordertable td,
+            .cf-dark-mode .datatable td,
+            .cf-dark-mode .bordertable th,
+            .cf-dark-mode .datatable th {
+                border-color: #3A3A3A !important;
+                background: transparent !important;
+            }
+
+            .cf-dark-mode .bordertable tr:nth-child(even),
+            .cf-dark-mode .datatable tr:nth-child(even) {
+                background: rgba(255,255,255,0.04) !important;
+            }
+
+            /* Icons */
+            .cf-dark-mode .icon,
+            .cf-dark-mode img[src*="icon"] {
+                filter: brightness(0) invert(1) !important;
+            }
+
+            /* Links */
+            .cf-dark-mode a {
+                color: #4A9EFF !important;
+            }
+
+            .cf-dark-mode a:hover {
+                color: #5AA8FF !important;
+            }
+
+            /* Code blocks */
+            .cf-dark-mode pre,
+            .cf-dark-mode code {
+                background: #1E1E1E !important;
+                color: #E8E8E8 !important;
+                border: 1px solid #3A3A3A !important;
+            }
+
+            /* Special elements */
+            .cf-dark-mode .section--gradientHero {
+                background: linear-gradient(135deg, #FF5E7E 0%, #FFAE54 45%, #9DE57D 80%) !important;
+            }
+
+            /* Ensure proper contrast for important elements */
+            .cf-dark-mode .verdict-accepted {
+                color: #4ADE80 !important;
+            }
+
+            .cf-dark-mode .verdict-wrong-answer,
+            .cf-dark-mode .verdict-compilation-error {
+                color: #F87171 !important;
+            }
+
+            .cf-dark-mode .verdict-time-limit-exceeded {
+                color: #FBBF24 !important;
+            }
+        `;
+    }
+
+    function applyDarkMode(enabled) {
+        const existingStyle = document.getElementById("cf-dark-mode-styles");
+
+        if (enabled) {
+            if (!existingStyle) {
+                const style = document.createElement("style");
+                style.id = "cf-dark-mode-styles";
+                style.textContent = createDarkModeCSS();
+                document.head.appendChild(style);
+            }
+            document.documentElement.classList.add("cf-dark-mode");
+        } else {
+            if (existingStyle) {
+                existingStyle.remove();
+            }
+            document.documentElement.classList.remove("cf-dark-mode");
+        }
+    }
+
+    function createDarkModeToggle() {
+        // Find the navbar or header
+        const header = document.getElementById("header");
+        if (!header) return;
+
+        // Find the menu container
+        const menuContainer =
+            header.querySelector(".menu-list-container") ||
+            header.querySelector(".second-level-menu") ||
+            header;
+
+        // Create toggle button
+        const toggleButton = document.createElement("a");
+        toggleButton.id = "cf-dark-mode-toggle";
+        toggleButton.href = "#";
+        toggleButton.style.cssText = `
+            display: inline-block;
+            margin: 0 10px;
+            padding: 8px 15px;
+            background: transparent;
+            color: ${userConfig.darkMode ? "#FFD700" : "#666"};
+            border: 1px solid ${userConfig.darkMode ? "#FFD700" : "#ccc"};
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            font-family: ${styles.fontFamily};
+            text-decoration: none;
+            transition: all 250ms ease;
+            position: relative;
+            z-index: 1000;
+        `;
+
+        toggleButton.textContent = userConfig.darkMode ? "🌙 Dark" : "☀️ Light";
+        toggleButton.title = `Switch to ${
+            userConfig.darkMode ? "light" : "dark"
+        } mode`;
+
+        // Add hover effects
+        toggleButton.addEventListener("mouseover", function () {
+            this.style.backgroundColor = userConfig.darkMode
+                ? "rgba(255, 215, 0, 0.1)"
+                : "rgba(0, 0, 0, 0.05)";
+            this.style.borderColor = userConfig.darkMode ? "#FFD700" : "#999";
+        });
+
+        toggleButton.addEventListener("mouseout", function () {
+            this.style.backgroundColor = "transparent";
+            this.style.borderColor = userConfig.darkMode ? "#FFD700" : "#ccc";
+        });
+
+        // Add click handler
+        toggleButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            const newDarkMode = !userConfig.darkMode;
+            saveConfig("darkMode", newDarkMode);
+
+            // Update button appearance
+            this.textContent = newDarkMode ? "🌙 Dark" : "☀️ Light";
+            this.title = `Switch to ${newDarkMode ? "light" : "dark"} mode`;
+            this.style.color = newDarkMode ? "#FFD700" : "#666";
+            this.style.borderColor = newDarkMode ? "#FFD700" : "#ccc";
+
+            // Apply dark mode
+            applyDarkMode(newDarkMode);
+
+            // Show notification
+            showSmallNotification(
+                `${newDarkMode ? "🌙 Dark" : "☀️ Light"} mode enabled!`,
+                "success"
+            );
+        });
+
+        // Try to insert in a good location
+        if (menuContainer.querySelector("ul")) {
+            // If there's a ul, append as last item
+            const lastLi = document.createElement("li");
+            lastLi.appendChild(toggleButton);
+            menuContainer.querySelector("ul").appendChild(lastLi);
+        } else {
+            // Otherwise append directly to container
+            menuContainer.appendChild(toggleButton);
+        }
+
+        return toggleButton;
+    }
 
     let userConfig = {};
 
@@ -77,6 +387,236 @@
 
     // Initialize configuration
     loadConfig();
+
+    /* ---------- Problems Recorder Storage ---------- */
+    // Storage key for saved problems
+    const STORAGE_KEY = "cfpp_saved_problems";
+
+    // Structure for saved problems
+    function createSavedProblem(
+        contestId,
+        problemIndex,
+        title,
+        url,
+        timeLimit,
+        memoryLimit
+    ) {
+        return {
+            id: `${contestId}${problemIndex}`,
+            contestId,
+            problemIndex,
+            title,
+            url,
+            timeLimit: timeLimit || "",
+            memoryLimit: memoryLimit || "",
+            savedAt: new Date().toISOString(),
+        };
+    }
+
+    // Storage helpers
+    function getSavedProblems() {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            return saved ? JSON.parse(saved) : [];
+        } catch (error) {
+            console.error("Error loading saved problems:", error);
+            return [];
+        }
+    }
+
+    function saveProblem(problem) {
+        try {
+            const saved = getSavedProblems();
+            const exists = saved.find((p) => p.id === problem.id);
+
+            if (!exists) {
+                saved.push(problem);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.error("Error saving problem:", error);
+            return false;
+        }
+    }
+
+    function removeSavedProblem(problemId) {
+        try {
+            const saved = getSavedProblems();
+            const filtered = saved.filter((p) => p.id !== problemId);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
+            return true;
+        } catch (error) {
+            console.error("Error removing problem:", error);
+            return false;
+        }
+    }
+
+    function isProblemSaved(problemId) {
+        const saved = getSavedProblems();
+        return saved.some((p) => p.id === problemId);
+    }
+
+    /* ---------- Problems Recorder Flag Button ---------- */
+    function createFlagButton(problemId) {
+        const button = document.createElement("button");
+        button.className = "cf-flag-button";
+        button.title = "Save to Problems Recorder";
+        button.style.cssText = `
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            margin: 0 5px;
+            padding: 0;
+            background: transparent;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #6b7280;
+            transition: all 0.2s ease;
+            font-family: ${styles.fontFamily};
+            position: relative;
+            z-index: 10;
+        `;
+
+        const updateButtonState = () => {
+            const isSaved = isProblemSaved(problemId);
+            button.textContent = isSaved ? "🚩" : "⚐";
+            button.style.color = isSaved ? "#f59e0b" : "#6b7280";
+            button.style.borderColor = isSaved ? "#f59e0b" : "#d1d5db";
+            button.style.backgroundColor = isSaved
+                ? "rgba(245, 158, 11, 0.1)"
+                : "transparent";
+            button.title = isSaved
+                ? "Remove from Problems Recorder"
+                : "Save to Problems Recorder";
+        };
+
+        // Initial state
+        updateButtonState();
+
+        // Hover effects
+        button.addEventListener("mouseenter", () => {
+            if (isProblemSaved(problemId)) {
+                button.style.backgroundColor = "rgba(245, 158, 11, 0.2)";
+                button.style.borderColor = "#f59e0b";
+            } else {
+                button.style.backgroundColor = "rgba(107, 114, 128, 0.1)";
+                button.style.borderColor = "#9ca3af";
+            }
+        });
+
+        button.addEventListener("mouseleave", () => {
+            updateButtonState();
+        });
+
+        // Click handler
+        button.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const { contestId, problemIndex } = getProblemInfo();
+            if (!contestId || !problemIndex) {
+                showSmallNotification("❌ Could not identify problem", "error");
+                return;
+            }
+
+            const problemId = `${contestId}${problemIndex}`;
+            const isSaved = isProblemSaved(problemId);
+
+            if (isSaved) {
+                // Remove from saved problems
+                if (removeSavedProblem(problemId)) {
+                    showSmallNotification(
+                        "📌 Problem removed from recorder",
+                        "success"
+                    );
+                    updateButtonState();
+                } else {
+                    showSmallNotification(
+                        "❌ Failed to remove problem",
+                        "error"
+                    );
+                }
+            } else {
+                // Save problem
+                const title =
+                    document
+                        .querySelector(".problem-statement .title")
+                        ?.textContent?.trim() ||
+                    document.querySelector(".title")?.textContent?.trim() ||
+                    `Problem ${problemIndex}`;
+
+                const timeLimit =
+                    document
+                        .querySelector(".time-limit")
+                        ?.textContent?.trim() || "";
+                const memoryLimit =
+                    document
+                        .querySelector(".memory-limit")
+                        ?.textContent?.trim() || "";
+
+                const problem = createSavedProblem(
+                    contestId,
+                    problemIndex,
+                    title,
+                    window.location.href,
+                    timeLimit,
+                    memoryLimit
+                );
+
+                if (saveProblem(problem)) {
+                    showSmallNotification(
+                        "📌 Problem saved to recorder!",
+                        "success"
+                    );
+                    updateButtonState();
+                } else {
+                    showSmallNotification(
+                        "⚠️ Problem already saved",
+                        "warning"
+                    );
+                }
+            }
+        });
+
+        return button;
+    }
+
+    function addFlagButtonToProblemPage() {
+        if (!isEnabled("problemsRecorder")) return;
+
+        const { contestId, problemIndex } = getProblemInfo();
+        if (!contestId || !problemIndex) return;
+
+        const problemId = `${contestId}${problemIndex}`;
+
+        // Try to find the problem title area
+        const titleElement =
+            document.querySelector(".problem-statement .header .title") ||
+            document.querySelector(".title");
+
+        if (titleElement && !titleElement.querySelector(".cf-flag-button")) {
+            const flagButton = createFlagButton(problemId);
+
+            // Create a wrapper to position the button
+            const buttonWrapper = document.createElement("span");
+            buttonWrapper.style.cssText = `
+                display: inline-flex;
+                align-items: center;
+                margin-left: 10px;
+                vertical-align: middle;
+            `;
+            buttonWrapper.appendChild(flagButton);
+
+            // Insert after the title
+            titleElement.appendChild(buttonWrapper);
+        }
+    }
 
     /* ---------- Load Monaco Editor ---------- */
     let monacoLoading = false;
@@ -229,7 +769,6 @@
                 border-radius: 12px;
                 max-width: 500px;
                 width: 90%;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
                 text-align: center;
             `;
 
@@ -330,7 +869,6 @@
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
-            box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 4px 12px rgba(0,0,0,0.60);
         `;
 
         const title = document.createElement("h2");
@@ -391,6 +929,16 @@
                 label: "📊 Sidebar",
                 desc: "Show the Codeforces++ sidebar",
             },
+            {
+                key: "problemsRecorder",
+                label: "📌 Problems Recorder",
+                desc: "Save hard problems for review and export as CSV",
+            },
+            {
+                key: "darkMode",
+                label: "🌙 Dark Mode",
+                desc: "Enable dark theme for the entire page",
+            },
         ];
 
         featureSettings.forEach((setting) => {
@@ -435,7 +983,19 @@
 
             checkbox.addEventListener("change", () => {
                 saveConfig(setting.key, checkbox.checked);
-                showSaveNotification();
+
+                // Handle dark mode specifically
+                if (setting.key === "darkMode") {
+                    applyDarkMode(checkbox.checked);
+                    showSmallNotification(
+                        `${
+                            checkbox.checked ? "🌙 Dark" : "☀️ Light"
+                        } mode enabled!`,
+                        "success"
+                    );
+                } else {
+                    showSaveNotification();
+                }
             });
 
             const labelText = document.createElement("span");
@@ -508,6 +1068,72 @@
         themeDiv.appendChild(themeDesc);
         settingsForm.appendChild(themeDiv);
 
+        // Add Saved Problems section
+        if (isEnabled("problemsRecorder")) {
+            const savedProblemsDiv = document.createElement("div");
+            savedProblemsDiv.style.cssText = `
+                margin-bottom: 20px;
+                padding: 15px;
+                border: 2px solid #00A4FF;
+                border-radius: 8px;
+                background: linear-gradient(135deg, rgba(0,164,255,0.1) 0%, rgba(0,164,255,0.05) 100%);
+            `;
+
+            const savedProblemsLabel = document.createElement("div");
+            savedProblemsLabel.textContent = "📌 Saved Problems";
+            savedProblemsLabel.style.cssText = `
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: #FFFFFF;
+                font-size: 16px;
+            `;
+
+            const savedCount = getSavedProblems().length;
+            const savedProblemsInfo = document.createElement("div");
+            savedProblemsInfo.textContent = `${savedCount} problems saved`;
+            savedProblemsInfo.style.cssText = `
+                font-size: 14px;
+                color: #B0B0B0;
+                margin-bottom: 10px;
+            `;
+
+            const manageSavedBtn = document.createElement("button");
+            manageSavedBtn.textContent = "📊 Manage Saved Problems";
+            manageSavedBtn.style.cssText = `
+                padding: 10px 20px;
+                background: #00A4FF;
+                color: #FFFFFF;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 600;
+                font-family: ${styles.fontFamily};
+                transition: all 0.3s ease;
+                width: 100%;
+            `;
+
+            manageSavedBtn.addEventListener("mouseover", () => {
+                manageSavedBtn.style.background = "#0090FF";
+                manageSavedBtn.style.transform = "translateY(-1px)";
+            });
+            manageSavedBtn.addEventListener("mouseout", () => {
+                manageSavedBtn.style.background = "#00A4FF";
+                manageSavedBtn.style.transform = "translateY(0)";
+            });
+
+            manageSavedBtn.addEventListener("click", () => {
+                // Close settings modal
+                modal.style.display = "none";
+                // Show saved problems modal
+                showSavedProblemsModal();
+            });
+
+            savedProblemsDiv.appendChild(savedProblemsLabel);
+            savedProblemsDiv.appendChild(savedProblemsInfo);
+            savedProblemsDiv.appendChild(manageSavedBtn);
+            settingsForm.appendChild(savedProblemsDiv);
+        }
+
         const buttonContainer = document.createElement("div");
         buttonContainer.style.cssText = `
             display: flex;
@@ -528,14 +1154,12 @@
             font-weight: 600;
             font-family: ${styles.fontFamily};
             transition: all 0.3s ease;
-            box-shadow: 0 2px 6px rgba(255,94,126,0.40);
         `;
 
         // Add hover effects to reset button
         resetButton.addEventListener("mouseover", () => {
             resetButton.style.background = "#FF7A94";
             resetButton.style.transform = "translateY(-1px)";
-            resetButton.style.boxShadow = "0 4px 12px rgba(255,94,126,0.50)";
         });
         resetButton.addEventListener("mouseout", () => {
             resetButton.style.background = "#FF5E7E";
@@ -671,6 +1295,498 @@
         }, 3000);
     }
 
+    /* ---------- Saved Problems Modal ---------- */
+    function showSavedProblemsModal() {
+        const modal = document.createElement("div");
+        modal.id = "cf-saved-problems-modal";
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 10002;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: ${styles.fontFamily};
+        `;
+
+        const modalContent = document.createElement("div");
+        modalContent.style.cssText = `
+            background: #121212;
+            border: 1px solid #2A2A2A;
+            border-radius: 12px;
+            max-width: 90%;
+            max-height: 90%;
+            width: 1000px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+        `;
+
+        // Header
+        const header = document.createElement("div");
+        header.style.cssText = `
+            padding: 20px 30px;
+            background: linear-gradient(90deg, #00A4FF 0%, #0090FF 100%);
+            color: #FFFFFF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        `;
+
+        const title = document.createElement("h2");
+        title.textContent = "📌 Saved Problems";
+        title.style.cssText = "margin: 0; font-size: 24px; font-weight: bold;";
+
+        const closeBtn = document.createElement("button");
+        closeBtn.textContent = "✕";
+        closeBtn.style.cssText = `
+            background: transparent;
+            border: none;
+            color: #FFFFFF;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+        `;
+        closeBtn.addEventListener("mouseover", () => {
+            closeBtn.style.backgroundColor = "rgba(255,255,255,0.2)";
+        });
+        closeBtn.addEventListener("mouseout", () => {
+            closeBtn.style.backgroundColor = "transparent";
+        });
+        closeBtn.addEventListener("click", () => {
+            document.body.removeChild(modal);
+        });
+
+        header.appendChild(title);
+        header.appendChild(closeBtn);
+
+        // Toolbar
+        const toolbar = document.createElement("div");
+        toolbar.style.cssText = `
+            padding: 15px 30px;
+            background: #1A1A1A;
+            border-bottom: 1px solid #2A2A2A;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        `;
+
+        const savedProblems = getSavedProblems();
+        const countInfo = document.createElement("span");
+        countInfo.textContent = `${savedProblems.length} problems saved`;
+        countInfo.style.cssText = "color: #B0B0B0; font-size: 14px;";
+
+        const toolbarButtons = document.createElement("div");
+        toolbarButtons.style.cssText =
+            "display: flex; gap: 10px; align-items: center;";
+
+        const selectAllBtn = document.createElement("button");
+        selectAllBtn.textContent = "Select All";
+        selectAllBtn.style.cssText = `
+            padding: 8px 16px;
+            background: transparent;
+            color: #00A4FF;
+            border: 1px solid #00A4FF;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        `;
+
+        const exportBtn = document.createElement("button");
+        exportBtn.textContent = "📤 Export CSV";
+        exportBtn.style.cssText = `
+            padding: 8px 16px;
+            background: #00A4FF;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        `;
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "🗑️ Delete Selected";
+        deleteBtn.style.cssText = `
+            padding: 8px 16px;
+            background: #FF5E7E;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        `;
+
+        toolbarButtons.appendChild(selectAllBtn);
+        toolbarButtons.appendChild(exportBtn);
+        toolbarButtons.appendChild(deleteBtn);
+
+        toolbar.appendChild(countInfo);
+        toolbar.appendChild(toolbarButtons);
+
+        // Table container
+        const tableContainer = document.createElement("div");
+        tableContainer.style.cssText = `
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+            background: #161616;
+        `;
+
+        const table = createSavedProblemsTable();
+        tableContainer.appendChild(table);
+
+        // Event listeners
+        exportBtn.addEventListener("click", () => exportSavedProblemsAsCSV());
+        deleteBtn.addEventListener("click", () =>
+            deleteSelectedProblems(table)
+        );
+        selectAllBtn.addEventListener("click", () => toggleSelectAll(table));
+
+        // Assemble modal
+        modalContent.appendChild(header);
+        modalContent.appendChild(toolbar);
+        modalContent.appendChild(tableContainer);
+        modal.appendChild(modalContent);
+
+        // Close on outside click
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                document.body.removeChild(modal);
+            }
+        });
+
+        document.body.appendChild(modal);
+    }
+
+    function createSavedProblemsTable() {
+        const savedProblems = getSavedProblems();
+
+        const table = document.createElement("table");
+        table.style.cssText = `
+            width: 100%;
+            border-collapse: collapse;
+            color: #FFFFFF;
+            font-size: 14px;
+        `;
+
+        // Header
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+        headerRow.style.cssText = `
+            background: #2A2A2A;
+            border-bottom: 2px solid #3A3A3A;
+        `;
+
+        const headers = [
+            { text: "", width: "40px" }, // Checkbox
+            { text: "#", width: "60px" },
+            { text: "Problem", width: "auto" },
+            { text: "Time Limit", width: "120px" },
+            { text: "Memory Limit", width: "120px" },
+            { text: "Saved", width: "140px" },
+            { text: "Actions", width: "80px" },
+        ];
+
+        headers.forEach((header) => {
+            const th = document.createElement("th");
+            th.textContent = header.text;
+            th.style.cssText = `
+                padding: 12px 15px;
+                text-align: left;
+                font-weight: bold;
+                color: #FFFFFF;
+                width: ${header.width};
+                border-right: 1px solid #3A3A3A;
+            `;
+            headerRow.appendChild(th);
+        });
+
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        // Body
+        const tbody = document.createElement("tbody");
+
+        if (savedProblems.length === 0) {
+            const emptyRow = document.createElement("tr");
+            const emptyCell = document.createElement("td");
+            emptyCell.colSpan = headers.length;
+            emptyCell.textContent =
+                "No problems saved yet. Start flagging problems on Codeforces!";
+            emptyCell.style.cssText = `
+                padding: 40px;
+                text-align: center;
+                color: #888;
+                font-style: italic;
+            `;
+            emptyRow.appendChild(emptyCell);
+            tbody.appendChild(emptyRow);
+        } else {
+            savedProblems.forEach((problem, index) => {
+                const row = document.createElement("tr");
+                row.style.cssText = `
+                    border-bottom: 1px solid #2A2A2A;
+                    transition: background-color 0.2s ease;
+                `;
+                row.addEventListener("mouseenter", () => {
+                    row.style.backgroundColor = "#1F1F1F";
+                });
+                row.addEventListener("mouseleave", () => {
+                    row.style.backgroundColor = "transparent";
+                });
+
+                // Checkbox
+                const checkboxCell = document.createElement("td");
+                checkboxCell.style.cssText =
+                    "padding: 12px 15px; border-right: 1px solid #2A2A2A;";
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "problem-checkbox";
+                checkbox.dataset.problemId = problem.id;
+                checkbox.style.cssText = "transform: scale(1.2);";
+                checkboxCell.appendChild(checkbox);
+
+                // Problem ID
+                const idCell = document.createElement("td");
+                idCell.textContent = problem.contestId + problem.problemIndex;
+                idCell.style.cssText = `
+                    padding: 12px 15px;
+                    border-right: 1px solid #2A2A2A;
+                    font-weight: bold;
+                    color: #00A4FF;
+                `;
+
+                // Problem title (with link)
+                const titleCell = document.createElement("td");
+                titleCell.style.cssText =
+                    "padding: 12px 15px; border-right: 1px solid #2A2A2A;";
+                const titleLink = document.createElement("a");
+                titleLink.href = problem.url;
+                titleLink.textContent = problem.title;
+                titleLink.target = "_blank";
+                titleLink.style.cssText = `
+                    color: #00A4FF;
+                    text-decoration: none;
+                    font-weight: 500;
+                `;
+                titleLink.addEventListener("mouseover", () => {
+                    titleLink.style.textDecoration = "underline";
+                });
+                titleLink.addEventListener("mouseout", () => {
+                    titleLink.style.textDecoration = "none";
+                });
+                titleCell.appendChild(titleLink);
+
+                // Time limit
+                const timeCell = document.createElement("td");
+                timeCell.textContent = problem.timeLimit || "N/A";
+                timeCell.style.cssText = `
+                    padding: 12px 15px;
+                    border-right: 1px solid #2A2A2A;
+                    color: #B0B0B0;
+                `;
+
+                // Memory limit
+                const memoryCell = document.createElement("td");
+                memoryCell.textContent = problem.memoryLimit || "N/A";
+                memoryCell.style.cssText = `
+                    padding: 12px 15px;
+                    border-right: 1px solid #2A2A2A;
+                    color: #B0B0B0;
+                `;
+
+                // Saved date
+                const savedCell = document.createElement("td");
+                const savedDate = new Date(
+                    problem.savedAt
+                ).toLocaleDateString();
+                savedCell.textContent = savedDate;
+                savedCell.style.cssText = `
+                    padding: 12px 15px;
+                    border-right: 1px solid #2A2A2A;
+                    color: #B0B0B0;
+                    font-size: 12px;
+                `;
+
+                // Actions
+                const actionsCell = document.createElement("td");
+                actionsCell.style.cssText =
+                    "padding: 12px 15px; text-align: center;";
+                const removeBtn = document.createElement("button");
+                removeBtn.textContent = "🗑️";
+                removeBtn.title = "Remove problem";
+                removeBtn.style.cssText = `
+                    background: transparent;
+                    border: none;
+                    color: #FF5E7E;
+                    cursor: pointer;
+                    font-size: 16px;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    transition: background 0.2s ease;
+                `;
+                removeBtn.addEventListener("mouseover", () => {
+                    removeBtn.style.backgroundColor = "rgba(255, 94, 126, 0.2)";
+                });
+                removeBtn.addEventListener("mouseout", () => {
+                    removeBtn.style.backgroundColor = "transparent";
+                });
+                removeBtn.addEventListener("click", () => {
+                    if (removeSavedProblem(problem.id)) {
+                        row.remove();
+                        showSmallNotification("Problem removed!", "success");
+                    }
+                });
+                actionsCell.appendChild(removeBtn);
+
+                row.appendChild(checkboxCell);
+                row.appendChild(idCell);
+                row.appendChild(titleCell);
+                row.appendChild(timeCell);
+                row.appendChild(memoryCell);
+                row.appendChild(savedCell);
+                row.appendChild(actionsCell);
+
+                tbody.appendChild(row);
+            });
+        }
+
+        table.appendChild(tbody);
+        return table;
+    }
+
+    function exportSavedProblemsAsCSV() {
+        const savedProblems = getSavedProblems();
+
+        if (savedProblems.length === 0) {
+            showSmallNotification("No problems to export", "warning");
+            return;
+        }
+
+        const headers = [
+            "ID",
+            "Contest",
+            "Problem",
+            "Title",
+            "URL",
+            "Time Limit",
+            "Memory Limit",
+            "Saved Date",
+        ];
+        const csvContent = [
+            headers.join(","),
+            ...savedProblems.map((problem) =>
+                [
+                    problem.id,
+                    problem.contestId,
+                    problem.problemIndex,
+                    `"${problem.title.replace(/"/g, '""')}"`, // Escape quotes
+                    problem.url,
+                    `"${problem.timeLimit}"`,
+                    `"${problem.memoryLimit}"`,
+                    new Date(problem.savedAt).toISOString(),
+                ].join(",")
+            ),
+        ].join("\n");
+
+        const blob = new Blob([csvContent], {
+            type: "text/csv;charset=utf-8;",
+        });
+        const link = document.createElement("a");
+
+        if (link.download !== undefined) {
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute(
+                "download",
+                `saved_problems_${new Date().toISOString().split("T")[0]}.csv`
+            );
+            link.style.visibility = "hidden";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showSmallNotification(
+                `📤 Exported ${savedProblems.length} problems`,
+                "success"
+            );
+        } else {
+            showSmallNotification(
+                "Export not supported in this browser",
+                "error"
+            );
+        }
+    }
+
+    function deleteSelectedProblems(table) {
+        const checkboxes = table.querySelectorAll(".problem-checkbox:checked");
+
+        if (checkboxes.length === 0) {
+            showSmallNotification("No problems selected", "warning");
+            return;
+        }
+
+        const problemIds = Array.from(checkboxes).map(
+            (cb) => cb.dataset.problemId
+        );
+
+        createModal(
+            "Delete Selected Problems",
+            `Are you sure you want to delete ${problemIds.length} selected problem(s)?`,
+            [
+                { text: "Cancel", value: false, primary: false },
+                { text: "Delete", value: true, primary: true },
+            ]
+        ).then((confirmed) => {
+            if (confirmed) {
+                let deletedCount = 0;
+                problemIds.forEach((id) => {
+                    if (removeSavedProblem(id)) {
+                        deletedCount++;
+                        // Remove row from table
+                        const checkbox = table.querySelector(
+                            `[data-problem-id="${id}"]`
+                        );
+                        if (checkbox) {
+                            checkbox.closest("tr").remove();
+                        }
+                    }
+                });
+
+                showSmallNotification(
+                    `🗑️ Deleted ${deletedCount} problems`,
+                    "success"
+                );
+            }
+        });
+    }
+
+    function toggleSelectAll(table) {
+        const checkboxes = table.querySelectorAll(".problem-checkbox");
+        const allChecked = Array.from(checkboxes).every((cb) => cb.checked);
+
+        checkboxes.forEach((cb) => {
+            cb.checked = !allChecked;
+        });
+    }
+
     /* ---------- Language configurations ---------- */
     const languageConfigs = {
         "GNU GCC C11": {
@@ -727,20 +1843,16 @@
         cleanupFunctions.push(fn);
     }
 
-    // Add cleanup function
-    function addCleanup(fn) {
-        cleanupFunctions.push(fn);
-    }
-
     /* ---------- Theme Management ---------- */
     function updateEditorTheme(themeKey) {
-        if (!monacoEditor || !THEMES[themeKey]) return;
+        if (!monacoEditor) return;
 
-        const theme = THEMES[themeKey];
-        monacoEditor.updateOptions({ theme: theme.monaco });
+        // Always use our custom vibrant theme
+        monaco.editor.setTheme("cfpp-dark");
 
         // Update editor container styling
         if (editorContainer) {
+            const theme = THEMES[themeKey] || THEMES["vs-dark"];
             editorContainer.style.background = theme.background;
             const header = editorContainer.querySelector("div");
             if (header) {
@@ -756,23 +1868,6 @@
 
         const submitContainer = submitForm.querySelector("td:last-child div");
         if (!submitContainer) return;
-
-        // Create paste button
-        const pasteBtn = document.createElement("button");
-        pasteBtn.type = "button";
-        pasteBtn.textContent = "📋 Paste from Editor";
-        pasteBtn.style.cssText = `
-            margin: 10px 5px;
-            padding: 8px 15px;
-            background: ${styles.linkColor};
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-family: ${styles.fontFamily};
-            font-size: 12px;
-        `;
 
         // Create enhanced submit button
         const enhancedSubmitBtn = document.createElement("button");
@@ -791,33 +1886,7 @@
             font-size: 12px;
         `;
 
-        // Add event listeners
-        pasteBtn.addEventListener("click", () => {
-            if (monacoEditor) {
-                const code = monacoEditor.getValue();
-                if (code.trim()) {
-                    const sourceInput = submitForm.querySelector(
-                        'input[name="source"]'
-                    );
-                    if (sourceInput) sourceInput.value = code;
-                    showAlert(
-                        "Code Pasted",
-                        "Code has been pasted to the submission form!"
-                    );
-                } else {
-                    showAlert(
-                        "No Code",
-                        "No code found in the editor to paste."
-                    );
-                }
-            } else {
-                showAlert(
-                    "Editor Not Ready",
-                    "Monaco editor is not initialized yet."
-                );
-            }
-        });
-
+        // Add event listener
         enhancedSubmitBtn.addEventListener("click", async () => {
             const code = monacoEditor ? monacoEditor.getValue() : "";
             if (!code.trim()) {
@@ -832,7 +1901,6 @@
             await showSubmissionPreview(code, submitForm);
         });
 
-        submitContainer.appendChild(pasteBtn);
         submitContainer.appendChild(enhancedSubmitBtn);
     }
 
@@ -1007,6 +2075,7 @@
     const explainButton = document.createElement("button"); // Perplexity
     const chatgptButton = document.createElement("button"); // ChatGPT
     const settingsButton = document.createElement("button"); // Settings
+    const savedProblemsButton = document.createElement("button"); // Saved Problems
 
     copyButton.textContent = "Copy Problem";
     youtubeButton.textContent = "Solutions Tutorials";
@@ -1015,6 +2084,7 @@
     explainButton.textContent = "Perplexity Explain";
     chatgptButton.textContent = "ChatGPT Explain";
     settingsButton.textContent = "⚙️ Settings";
+    savedProblemsButton.textContent = "📌 Saved Problems";
 
     /* ---------- Navigation buttons (prev / next) ---------- */
     const navContainer = document.createElement("div");
@@ -1239,7 +2309,7 @@
 
         // Title
         const editorTitle = document.createElement("h3");
-        editorTitle.textContent = "💻 VS Code Editor";
+        editorTitle.textContent = "Code Editor";
         editorTitle.style.cssText = `
             margin: 0;
             font-size: 18px;
@@ -1248,7 +2318,7 @@
 
         // Language selector
         const langLabel = document.createElement("label");
-        langLabel.textContent = "Language: ";
+        langLabel.textContent = "Lang: ";
         langLabel.style.cssText = "font-weight: bold; color: white;";
 
         const langSelect = document.createElement("select");
@@ -1279,23 +2349,6 @@
         headerRight.style.cssText =
             "display: flex; gap: 10px; flex-wrap: wrap;";
 
-        // Paste button
-        const pasteBtn = document.createElement("button");
-        pasteBtn.textContent = "📋 Paste Code";
-        pasteBtn.style.cssText = `
-            padding: 12px 20px;
-            background: transparent;
-            color: #FFFFFF;
-            border: 1px solid #3A3A3A;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-family: ${styles.fontFamily};
-            font-size: 14px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        `;
-
         // Submit button
         const submitBtn = document.createElement("button");
         submitBtn.textContent = "🚀 Submit Solution";
@@ -1314,23 +2367,6 @@
         `;
 
         // Add modern hover effects
-        pasteBtn.addEventListener("mouseover", () => {
-            pasteBtn.style.background = "#1A1A1A";
-            pasteBtn.style.transform = "translateY(-1px)";
-            pasteBtn.style.boxShadow = "0 4px 8px rgba(0,0,0,0.6)";
-        });
-        pasteBtn.addEventListener("mouseout", () => {
-            pasteBtn.style.background = "transparent";
-            pasteBtn.style.transform = "translateY(0)";
-            pasteBtn.style.boxShadow = "0 2px 4px rgba(0,0,0,0.5)";
-        });
-        pasteBtn.addEventListener("mousedown", () => {
-            pasteBtn.style.background = "#222222";
-        });
-        pasteBtn.addEventListener("mouseup", () => {
-            pasteBtn.style.background = "#1A1A1A";
-        });
-
         submitBtn.addEventListener("mouseover", () => {
             submitBtn.style.background =
                 "linear-gradient(90deg, #00B8FF 0%, #0080FF 100%)";
@@ -1351,7 +2387,6 @@
                 "linear-gradient(90deg, #00B8FF 0%, #0080FF 100%)";
         });
 
-        headerRight.appendChild(pasteBtn);
         headerRight.appendChild(submitBtn);
         header.appendChild(headerLeft);
         header.appendChild(headerRight);
@@ -1376,17 +2411,76 @@
                 require(["vs/editor/editor.main"], () => {
                     try {
                         if (window.monaco) {
-                            const currentTheme =
-                                THEMES[userConfig.editorTheme] ||
-                                THEMES["vs-dark"];
+                            // Define custom vibrant C++ theme
+                            monaco.editor.defineTheme("cfpp-dark", {
+                                base: "vs-dark",
+                                inherit: true,
+                                rules: [
+                                    { token: "keyword", foreground: "C586C0" }, // purple
+                                    {
+                                        token: "identifier",
+                                        foreground: "9CDCFE",
+                                    }, // light-blue
+                                    { token: "number", foreground: "B5CEA8" }, // green
+                                    { token: "string", foreground: "CE9178" }, // salmon
+                                    { token: "comment", foreground: "6A9955" }, // greenish
+                                ],
+                            });
+
+                            // Register C++ completion provider
+                            monaco.languages.registerCompletionItemProvider(
+                                "cpp",
+                                {
+                                    triggerCharacters: [".", ">", ":"],
+                                    provideCompletionItems: () => ({
+                                        suggestions: [
+                                            ...[
+                                                "auto",
+                                                "break",
+                                                "case",
+                                                "class",
+                                                "const",
+                                                "continue",
+                                                "else",
+                                                "for",
+                                                "if",
+                                                "return",
+                                                "struct",
+                                                "switch",
+                                                "typedef",
+                                                "while",
+                                            ].map((k) => ({
+                                                label: k,
+                                                kind: monaco.languages
+                                                    .CompletionItemKind.Keyword,
+                                                insertText: k,
+                                            })),
+                                            {
+                                                label: "for-loop",
+                                                kind: monaco.languages
+                                                    .CompletionItemKind.Snippet,
+                                                insertText: [
+                                                    "for (int ${1:i} = 0; ${1:i} < ${2:n}; ++${1:i}) {",
+                                                    "\t$0",
+                                                    "}",
+                                                ].join("\n"),
+                                                insertTextRules:
+                                                    monaco.languages
+                                                        .CompletionItemInsertTextRule
+                                                        .InsertAsSnippet,
+                                                documentation:
+                                                    "Classic for loop",
+                                            },
+                                        ],
+                                    }),
+                                }
+                            );
+
                             monacoEditor = window.monaco.editor.create(
                                 editorDiv,
                                 {
                                     language: "cpp",
-                                    theme:
-                                        currentTheme === "vscode-dark"
-                                            ? "vs-dark"
-                                            : "hc-black",
+                                    theme: "cfpp-dark",
                                     value: "// Start coding here...\n",
                                     automaticLayout: true,
                                     wordWrap: "on",
@@ -1503,41 +2597,6 @@
                     monacoEditor.getModel(),
                     config.monaco
                 );
-            }
-        });
-
-        // Add paste button functionality
-        pasteBtn.addEventListener("click", async () => {
-            try {
-                const clipboardText = await navigator.clipboard.readText();
-                if (monacoEditor && clipboardText.trim()) {
-                    monacoEditor.setValue(clipboardText);
-                    showSmallNotification(
-                        "📋 Code pasted from clipboard!",
-                        "success"
-                    );
-                    console.log("Code pasted successfully to Monaco editor");
-                } else if (!clipboardText.trim()) {
-                    showSmallNotification("⚠️ Clipboard is empty", "warning");
-                } else {
-                    showSmallNotification("❌ Editor not ready", "error");
-                    console.log("Monaco editor not ready:", !!monacoEditor);
-                }
-            } catch (error) {
-                console.error("Paste error:", error);
-                showSmallNotification(
-                    "❌ Cannot access clipboard. Use Ctrl+V to paste.",
-                    "error"
-                );
-
-                // Fallback: try to focus the editor so user can Ctrl+V
-                if (monacoEditor) {
-                    try {
-                        monacoEditor.focus();
-                    } catch (e) {
-                        console.error("Could not focus editor:", e);
-                    }
-                }
             }
         });
 
@@ -1969,7 +3028,20 @@
         }
         const problemTitle = title.textContent.trim();
         const search = encodeURIComponent(
-            `${problemTitle} codeforces OR ${problemTitle} mohamed abdo`
+            (() => {
+                const cleanTitle = problemTitle
+                    .replace(/^[A-Z]\.\s*/, "")
+                    .trim();
+
+                const searches = [
+                    `${problemTitle} codeforces`,
+                    `${cleanTitle} codeforces problem`,
+                    `${problemTitle} mohamed abdo`,
+                    `${cleanTitle} competitive programming solution`,
+                ];
+
+                return searches.join(" OR ");
+            })()
         );
         window.open(
             `https://www.youtube.com/results?search_query=${search}`,
@@ -1989,6 +3061,10 @@
             settingsModal = createSettingsModal();
         }
         settingsModal.style.display = "flex";
+    });
+
+    savedProblemsButton.addEventListener("click", () => {
+        showSavedProblemsModal();
     });
 
     function openExplain(baseUrl, btn, successMsg) {
@@ -2108,6 +3184,11 @@ ${txt}`;
         // Always show settings button
         list.appendChild(wrap(settingsButton));
 
+        // Add saved problems button if enabled
+        if (isEnabled("problemsRecorder")) {
+            list.appendChild(wrap(savedProblemsButton));
+        }
+
         sidebar.appendChild(list);
 
         // Insert sidebar after the first existing sidebar element
@@ -2171,10 +3252,19 @@ ${txt}`;
                 console.log("Running debounced initialization...");
                 initialized = true;
                 try {
+                    // Initialize dark mode if enabled
+                    if (userConfig.darkMode) {
+                        applyDarkMode(true);
+                    }
+
+                    // Create dark mode toggle button
+                    createDarkModeToggle();
+
                     createSidebar();
                     placeNav();
                     createCodeEditor();
                     enhanceSubmissionForm();
+                    addFlagButtonToProblemPage();
                 } catch (error) {
                     console.error("Init error:", error);
                 }
