@@ -1,4 +1,6 @@
-# Codeforces++ 🚀
+# CF++ (Codeforces++ 🚀)
+
+The official CF++ GitHub repository by abdullah-elbedwehy.
 
 _A one‑file Tampermonkey script that turns every Codeforces problem page into a mini‑IDE._
 
@@ -19,9 +21,10 @@ _A one‑file Tampermonkey script that turns every Codeforces problem page into 
 | ✨ Feature                     | 1‑liner                                                             |
 | ------------------------------ | ------------------------------------------------------------------- |
 | **VS‑Code‑like Monaco editor** | dark theme, C++/Py/Java/JS/C colouring, smart width                 |
-| **One‑tap Submit**             | preview ➜ confirm ➜ done                                            |
+| **Enhanced Submit**            | better submission flow with validation & error handling             |
 | **Prev / Next**                | keyboard‑friendly problem hopping                                   |
 | **Copy statement**             | problem + samples to clipboard                                      |
+| **Flag for later**             | mark problems for revision & export flagged list as CSV             |
 | **AI coach buttons**           | _Perplexity_ & _ChatGPT_ explain (no code leaked) and no api needed |
 | **YouTube jump**               | open tutorials on youtube instantly                                 |
 | **Tool shortcuts**             | Excalidraw whiteboard, cpp.sh, etc.                                 |
